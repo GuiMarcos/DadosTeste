@@ -85,3 +85,12 @@ Este projeto utiliza Docker para garantir que rodará em qualquer computador sem
 - **Modelagem Preditiva:** Implementar algoritmos de Machine Learning (como Regressão Logística, Random Forest ou XGBoost) para prever as probabilidades de vitória baseando-se no clima cruzado com o horário e a diferença na tabela.
 - **Painel Interativo (BI):** Conectar a base de dados final enriquecida a uma ferramenta de Business Intelligence (como PowerBI, Metabase ou Tableau) para que os usuários possam filtrar interativamente os times, turnos e regiões.
 - **Fator Desgaste (Calendário):** Adicionar uma variável que calcule o tempo de descanso (em dias) desde a última partida de cada equipe, cruzando o cansaço acumulado com as altas temperaturas.
+
+## Limitações da Análise Atual (Pontos de Atenção)
+
+Como em todo projeto de Ciência de Dados iterativo, a transparência sobre os métodos e limitações é fundamental. Esta primeira versão (MVP) possui os seguintes pontos de atenção, que servem como roteiro para as próximas atualizações:
+
+- **A Ilusão da Temperatura Máxima:** A consulta atual à API do Open-Meteo busca a temperatura máxima do dia (`temperature_2m_max`). No entanto, muitos jogos no Brasil ocorrem no período noturno (ex: 21h30), quando a temperatura já caiu. Em atualizações futuras, consumiremos dados horários (`hourly`) para cruzar a temperatura exata com a hora do apito inicial.
+- **A Miopia da Tabela Inicial:** O cálculo de probabilidade e "zebras" baseia-se puramente na diferença de posições. Nas primeiras 5 a 10 rodadas, a tabela do campeonato é altamente volátil e não reflete a força técnica real das equipes, o que pode gerar falsas classificações de favoritismo.
+- **Tamanho da Amostra (N=380):** A análise de apenas uma temporada pode criar recortes estatísticos muito pequenos (ex: quantidade de jogos matutinos no Nordeste sob frio intenso), enviesando as taxas de vitória. Para validação estatística robusta, o _scraper_ será expandido para coletar as últimas 5 temporadas.
+- **Dicionário Geográfico "Hardcoded":** O mapeamento de times para seus respectivos estados foi feito manualmente para os 20 clubes da edição atual. Ao raspar dados de anos anteriores, equipes rebaixadas/promovidas não listadas cairão na categoria "Outra". Isso será substituído por um mapeamento dinâmico ou consulta a uma API de clubes.
